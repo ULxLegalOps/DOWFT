@@ -1,0 +1,246 @@
+
+<div class="container-fluid">
+  <div class="row">
+<div class="col">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title text-center text-muted ">Received</h5>
+      <h1 class="card-subtitle text-center">{{Received}}</h1>
+      <!-- <h1 class="card-subtitle text-center">{{receivedperday}}</h1> -->
+    </div>
+  </div>
+</div>
+<div class="col">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title text-center text-muted ">Assigned</h5>
+      <h1 class="card-subtitle text-center">{{Assigned}}</h1>
+    </div>
+  </div>
+</div>
+<div class="col">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title text-center text-muted ">Pending</h5>
+      <h1 class="card-subtitle text-center">{{Pending}}</h1>
+      <!-- <h1 class="card-subtitle text-center">{{pendingperday}}</h1> -->
+    </div>
+  </div>
+</div>
+<div class="col">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title text-center text-muted ">Completed</h5>
+      <h1 class="card-subtitle text-center">{{Completed}}</h1>
+    </div>
+  </div>
+</div>
+<div class="col">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title text-center text-muted ">In Progress</h5>
+      <h1 class="card-subtitle text-center">{{InProgress}}</h1>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+<br>
+<div class="row">
+<div class="col">
+  <div class="card">
+    <div class="card-body" >
+      <!-- <app-bar-chart></app-bar-chart> -->
+      <div>
+        <div style="display: block;">
+          <canvas baseChart 
+            [datasets]="barChartData"
+            [labels]="dateArr"
+            [options]="barChartOptions"
+            [plugins]="barChartPlugins"
+            [legend]="barChartLegend"
+            [chartType]="barChartType">
+          </canvas>
+        </div>        
+  </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<br>
+<br>
+<p-table [columns]="cols" [value]="users" sortMode="multiple" #dt [paginator]="true" [rows]="10"  >
+  <ng-template pTemplate="caption">
+Pending Allocation
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+      <tr>
+          <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+              {{col.header}}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th> 
+          <th>Action</th>
+      </tr>
+      <tr>
+          <!-- <th *ngFor="let col of columns" [ngSwitch]="col.field">
+              <input pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+          </th>  -->
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-user let-columns="columns">
+    <!-- <tr *ngFor = "let item of pendingallocations">
+       <td><input type = "hidden"</td> 
+    </tr> -->
+      <tr>
+          <td *ngFor="let col of columns">
+              {{user[col.field]}}
+          </td>
+           <td><a (click)="Copy(user)" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Assign</a></td> 
+      </tr>
+
+  </ng-template>
+</p-table>
+
+<div class="col-sm-12">
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Request Details</h5></div>
+        <div class="modal-body">
+          <div class="for-row">
+            <form #EditForm='ngForm' name="form_post" (ngSubmit)="submitForm(EditForm)">
+              <fieldset>
+                <div class="form-row">
+                  <div class="col-md-2 mb-1">
+                    <div class="input-group mb-1"   ng-class="{ 'has-error' : AngularForm.Title.$invalid &amp;&amp; !AngularForm.Title.$pristine }">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">ID#</span> </div>
+                        <span class="form-control"  id="inputGroup-sizing-default" >{{Id}}</span> 
+                        <!-- <span class="form-control" id="inputGroup-sizing-default" >{{new.From}}</span> 
+                        <span class="form-control" id="inputGroup-sizing-default" >{{new.DateTime}}</span>  -->
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-1" >
+                    <div class="input-group mb-1" ng-class="{ 'has-error' : AngularForm.Title.$invalid &amp;&amp; !AngularForm.Title.$pristine }">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">From</span> </div>
+                         <span class="form-control" id="inputGroup-sizing-default" >{{From}}</span> 
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-1" >
+                    <div class="input-group mb-1" ng-class="{ 'has-error' : AngularForm.Designation.$invalid &amp;&amp; !AngularForm.Designation.$pristine }">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Date</span> </div>
+                         <span class="form-control" id="inputGroup-sizing-default"  >{{DateTime}}</span>  
+                    </div>
+                  </div>
+                <div class="col-md-12 mb-1">
+                  <div class="input-group mb-1" ng-class="{ 'has-error' : AngularForm.PositionStatus.$invalid &amp;&amp; !AngularForm.PositionStatus.$pristine }">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-default">Subject</span></div>
+                      <span class="form-control" id="inputGroup-sizing-default" >{{Title}}</span>
+                  </div>
+                </div>
+                <div class="col-md-12 mb-1">
+                  <div class="input-group mb-1" ng-class="{ 'has-error' : AngularForm.BindingContract.$invalid &amp;&amp; !AngularForm.BindingContract.$pristine }">
+                  <textarea class="form-control" type="text" rows="15" >{{EmailBody}}</textarea>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-1">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Status</span></div>
+                    <select  class="custom-select" name="Status" [(ngModel)]="Status">
+                      <option value="Received">Received</option>
+                      <option value="Assigned">Assigned</option>
+                      <option value="Pending">Pending</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Completed">Completed</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-md-6 mb-1">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">DataOps Member</span></div>
+                    <select name="DataOpsMemberId" [(ngModel)] ="DataOpsMemberId" class="custom-select">
+                      <option value="19">Rami Reddy</option>
+                      <option value="18">Amit Sharma</option>
+                      <option value="20">Shiksha George</option>
+                    </select>
+                  </div>
+                </div>
+
+<div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+<button type="button" class="btn btn-secondary">No Action</button>
+<div class="btn-group" role="group">
+  <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Dropdown
+  </button>
+  <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+    <a class="dropdown-item" href="#">Rami Reddy</a>
+    <a class="dropdown-item" href="#">Amit Sharma</a>
+    <a class="dropdown-item" href="#">Shiksha George</a>
+  </div>
+</div>
+</div>
+
+
+
+          </div>
+          </fieldset>
+
+
+
+<fieldset>
+<label><strong><span class="badge badge-secondary"><i class="fas fa-compass"></i> Additonal Information</span></strong></label>
+<div class="form-row">
+
+
+<div class="col-md-12 mb-1">
+<div class="input-group">
+
+ <a href="#" class="badge text-white badge-warning mr-1" *ngFor="let file of getAttachment">{{file.name}}</a>
+<hr class="w-100 p-0">
+   <a href='{{file.ServerRelativeUrl}}' target="_blank" class="badge text-white badge-success mr-1 mb-1" *ngFor="let file of getAttachment">{{file.FileName}}</a> 
+ </div>
+</div>   
+  <div class="col-md-12 mb-1">
+  
+  <label>Comments</label>
+  <textarea class="form-control" name ="Comments" [(ngModel)] ="Comments" aria-label="With textarea"></textarea>
+  <small class="text-muted">
+  <label>Comments History:</label>
+  <div class="form-row w-100" ng-repeat="Version in LDVersion">
+  <!-- <div class=" w-100 text-right">Last Updated By {{Version.Editor.LookupValue}} on {{Version.Modified | date}} </div> -->
+  <!-- <div class="col-12">{{Version.Comments | htmlToPlaintext}}</div> -->
+  </div>
+  </small>
+  </div>
+  </div>
+  </fieldset>            
+              
+            </form>
+            </div>
+        </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success" ng-click="Create(Items)" value="Add" ng-disabled="!AngularForm.$valid" ng-show="Items.Id == null" data-dismiss="modal">Submit</button>
+            <button type="submit" class="btn btn-warning"  (click)="submitForm(EditForm)" data-dismiss="modal">Update</button>
+            <button type="submit" class="btn btn-danger" ng-click="Delete(Items)" value="Delete" ng-disabled="!AngularForm.$valid" ng-show="Items.Id != null" data-dismiss="modal">Delete</button>
+            <button type="button" class="btn btn-info" ng-click="Clear()">Clear</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  
+
+    <!-- <div class="testDiv" *ngFor = "let new of newList">
+     <p>Id:</p> <span>{{new.Id}}</span>
+     <p>Title:</p> <span>{{new.Title}}</span>
+    </div> -->

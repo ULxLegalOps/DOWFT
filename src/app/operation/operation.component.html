@@ -1,0 +1,24 @@
+<p>operation works!</p>
+<div class="container">
+    <form [formGroup]= "form_post" (ngSubmit)="submitForm(form_post)">
+        <div class="form-group input-group-lg">
+            <input class="form-control" placeholder="Name" formControlName="Comments">
+        </div>
+
+        <select  class="custom-select"  formControlName="Status">
+            <option value="Received">Received</option>
+            <option value="Assigned">Assigned</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+          <br>
+          <select formControlName ="DataOpsMemberId" class="custom-select">
+            <option value="19">Rami Reddy</option>
+            <option value="18">Amit Sharma</option>
+            <option value="20">Shiksha George</option>
+          </select>
+          <br>
+            <button class="btn btn-danger btn-block btn-lg">Create</button>
+    </form>
+</div>

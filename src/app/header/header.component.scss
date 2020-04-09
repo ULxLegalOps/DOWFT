@@ -1,0 +1,66 @@
+.sticky-container {
+    /*background-color: #333;*/
+    padding: 5px;
+    margin: 0px;
+    position: fixed;
+    right: -310px;
+    top: 35%;
+    width: 400px;
+    }
+    
+    .sticky li {
+    border-radius: 30px 0 0 30px;
+    list-style-type: none;
+    background-color: #333;
+    color: #efefef;
+    height: 43px;
+    padding: 0px 0px 0px 5px;
+    margin: 0px 0px 1px 0px;
+    -webkit-transition: all 0.25s ease-in-out;
+    -moz-transition: all 0.25s ease-in-out;
+    -o-transition: all 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
+    filter: gray;
+    -webkit-filter: grayscale(100%);
+    }
+    .sticky li:hover {
+    margin-left: -70px;
+    *-webkit-transform: translateX(-115px);
+    -moz-transform: translateX(-115px);
+    -o-transform: translateX(-115px);
+    -ms-transform: translateX(-115px);
+    transform:translateX(-115px);
+    -webkit-filter: grayscale(0%);
+    background-color: black;
+    }
+    .wrapper {
+        position: relative;
+        overflow: hidden;
+        width: 600px;
+        height: 370px; 
+        border: 1px solid black;
+    }
+    
+    #slide {
+        position: absolute;
+        left: -600px;
+        width: 200px;
+        height: 100%;
+        background:#212529;
+        z-index: 1;
+        -webkit-animation: slide 0s forwards;
+        -webkit-animation-delay: 0s;
+        animation: slide 0s forwards;
+        animation-delay: 0s;
+       // transition: 1s;
+       transition: all .0s ease;
+    }
+    
+    @-webkit-keyframes slide {
+        100% { left: 0; }
+    }
+    
+    @keyframes slide {
+        100% { left: 0; }
+    }
