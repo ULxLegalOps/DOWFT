@@ -1,3 +1,4 @@
+import { DataopsService } from './dataops/dataops.service';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import {MatIconModule} from '@angular/material/icon'
 import { BrowserModule } from '@angular/platform-browser';
@@ -20,21 +21,56 @@ import { HttpModule } from '@angular/http';
 //import { BarChartComponent } from './bar-chart/bar-chart.component'; 
 import { ChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
-//import {MatIconModule} from '@angular/material/icon';
-// import {
-//   MatSidenavModule,
-//   MatSidenavContent,
-//   MatSidenav
-// } from '';
-//import {MatSidenavModule} from 'angular-material';
-//import { SPService } from './sp.service';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
 
+const customNotifierOptions: NotifierOptions = {
+  position: {
+		horizontal: {
+			position: 'left',
+			distance: 12
+		},
+		vertical: {
+			position: 'bottom',
+			distance: 12,
+			gap: 10
+		}
+	},
+  theme: 'material',
+  behaviour: {
+    autoHide: 5000,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
+};
 @NgModule({
   declarations: [
     AppComponent,
     DataopsComponent,
     OperationComponent,
     HeaderComponent,
+    BarChartComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,11 +88,11 @@ import { DatePipe } from '@angular/common';
     MatListModule,
      HttpModule,
     ChartsModule
+    ,NotifierModule.withConfig(customNotifierOptions)
    // MatSidenavModule
-
   ],
   // exports:[MatSidenavModule],
-  providers: [DatePipe],
+  providers: [DatePipe,DataopsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

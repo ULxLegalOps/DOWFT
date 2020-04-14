@@ -25,6 +25,10 @@
           </li>
         </ul>
       </div>
+      <button mat-icon-button (click)="clearCount()">
+        <mat-icon class="icon">notifications</mat-icon>
+        <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
+      </button>
     </nav>
     <br>
     <div id ="slide" *ngIf = "opennav">
@@ -55,6 +59,3 @@
       <br>
       <br>
       <br>
-    <app-dataops></app-dataops>
-
-    <!-- <app-operation></app-operation> -->
