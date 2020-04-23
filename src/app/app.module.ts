@@ -23,6 +23,10 @@ import { ChartsModule } from 'ng2-charts';
 import { DatePipe } from '@angular/common';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
+import { DatepipePipe } from './datepipe.pipe';
+import { ChartComponent } from './chart/chart.component';
+import { PushnotificationComponent } from './pushnotification/pushnotification.component';
+import { FileuploadComponent } from './fileupload/fileupload.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -71,6 +75,10 @@ const customNotifierOptions: NotifierOptions = {
     OperationComponent,
     HeaderComponent,
     BarChartComponent,
+    DatepipePipe,
+    ChartComponent,
+    PushnotificationComponent,
+    FileuploadComponent,
   ],
   imports: [
     BrowserModule,

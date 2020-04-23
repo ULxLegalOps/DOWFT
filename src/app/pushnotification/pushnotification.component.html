@@ -1,0 +1,33 @@
+<span 
+    class="notification" 
+    >
+    <a
+        href dropdownToggle 
+        (click)="false">
+        <i 
+        class="glyphicon glyphicon-bell" > 
+    </i>
+    </a>
+      <ul 
+        *dropdownMenu 
+        class="dropdown-menu notify-drop">
+          <div 
+            class="notify-drop-title">Notifications</div>
+            <!-- <div 
+                class="drop-content" 
+                *ngFor="let item of cookieData.search_result">
+                <li 
+                data-id="{{item.id}}" 
+                    class="notification-items unread">  
+                    <i 
+                        class="fa fa-dot-circle-o" 
+                        aria-hidden="true">
+                    </i>
+                    <a 
+                        data-link="admin-invoice-list" 
+                        href="javascript:;">{{item.message}}
+                    </a>
+                </li>
+            </div> -->
+      </ul>
+</span>

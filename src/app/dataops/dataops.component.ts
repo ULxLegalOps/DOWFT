@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ElementRef,Input} from '@angular/core';
+import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormControl, NgForm } from '@angular/forms';
 import {config} from '../config';
@@ -13,6 +13,10 @@ declare let $: any;
   styleUrls: ['./dataops.component.scss']
 })
 export class DataopsComponent implements OnInit {
+  @ViewChild('fileUpload') fileUploadEl: ElementRef;
+  fName = '';
+  contents: any[];
+  name = '';
   users: User[];
   cols: any[];
   title = 'Excel';  
@@ -41,11 +45,19 @@ export class DataopsComponent implements OnInit {
   newArray:any[]=[];
   attachmentUrl:any;
   test: string;
+  cookieData: any;
+  public isShow:boolean = false;
+  //Title:any;
   constructor(private fb: FormBuilder,private http: HttpClient,private dataopsService:DataopsService,	private notifier: NotifierService) {
-    this.countNumber=0;
-    this.notifier = notifier;
+   // this.countNumber=0;
+   // this.notifier = notifier;
   }
   ngOnInit(): void {
+    this.http.get<any>(config.PLUGIN_URL +"/ContractRoomDataOps/_api/web/lists/getByTitle('Logs')/Items?&$top=100&$orderby= Id desc").subscribe(data => {
+      this.cookieData = data.value;
+     this.countNumber= this.cookieData.length;
+      console.log(this.cookieData.length);
+    });
     this.dataopsService.getDataResp().subscribe(data => {
      this.users = data.value;
      this.Assigned =0;
@@ -73,6 +85,13 @@ export class DataopsComponent implements OnInit {
          }
      }
   });
+  // this.dataopsService.getBellNotification().subscribe(data => {
+  //   console.log(data);
+  // });
+  // this.dataopsService.getBellNotification().subscribe(data => {
+  //     this.cookieData = data;
+  //     console.log("notification data" +this.cookieData );
+  //   });
      this.cols = [
       { field: 'Id', header: '#' },
       { field: 'From', header: 'From' },
@@ -81,6 +100,9 @@ export class DataopsComponent implements OnInit {
       { field: 'DataOpsMemberId', header: 'Member' },
        { field: 'DateTime', header: 'DateTime' }
   ];
+
+    
+   // console.log("notification data" +this.cookieData );
   }
   Copy(col){
     this.newList = [
@@ -106,27 +128,63 @@ this.attachmentUrl = config.PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getB
     this.getAttachment = data.value;
   });
   }
-  clearCount() {
-    this.countNumber = 0;
-  }  
+ 
+  show(){
+    this.isShow = !this.isShow;
+  // alert();
+  }
   OpenNav(){
      this.opennav = !this.opennav;
       }
   submitForm(EditForm: NgForm) {
+    let Title = "Status Has been Marked as " +this.Status;
     this.Id  = this.Id;
     this.Status = this.Status;
     this.Comments= this.Comments;
     this.DataOpsMemberId= this.DataOpsMemberId ;
     this.dataopsService.UpdateData(this.Status,this.Comments,this.Id,this.DataOpsMemberId).then((resp) =>{
-    this.countNumber++;
-    this.isPopupShow = true;
+      this.isPopupShow = true;
       setTimeout(()=>{   
          this.isPopupShow = false;
       }, 3000);
-     localStorage.setItem('number', JSON.stringify(this.countNumber));
-     this.test = localStorage.getItem('number');
-     console.log("test value localstorate" + this.test);
+      this.dataopsService.PushNotification(Title).then((resp)=>{
+        location.reload();
+
+      })
+      // if(resp.AuthorId == 10){
+      //   console.log("failure");
+      // }
+    //  console.log(resp);
+      //if(Status Code)
+    // this.countNumber++;
+   
+    //  localStorage.setItem('number', JSON.stringify(this.countNumber));
+    //  this.test = localStorage.getItem('number');
+    //  console.log("test value localstorate" + this.test);
    });
+  }
+  public fileChanged(event?: UIEvent): void {
+    const files: FileList = this.fileUploadEl.nativeElement.files;
+    console.log(`files: `, files);
+
+    const file = files[0];
+    const reader = new FileReader();
+    // reader.addEventListener('loadend', () => {
+    //   console.log(arguments);
+    //   console.log(reader);
+    //   this.contents = reader.result;
+    //   console.log(this.contents);
+    // });
+    // reader.readAsArrayBuffer(file);
+
+    const loaded = (el) => {
+      const contents = el.target.result;
+      console.log('onloaded', contents);
+      this.contents = contents;
+    }
+    reader.onload = loaded;
+    reader.readAsText(file, 'UTF-8');
+    this.name = file.name;
   }
 }
 export interface User {
