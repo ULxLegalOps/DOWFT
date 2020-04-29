@@ -58,7 +58,9 @@ export class FileUploadService {
     return new Promise((resolve, reject) => {  
       // Construct the endpoint - The GetList method is available for SharePoint Online only.    
     //  var serverRelativeUrlToFolder = "decodedurl='" + this.siteRelativeUrl + "/" + libraryName + "'";  
-      var endpoint = config.PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getByTitle('DataOps')/Items/AttachmentFiles" 
+      var endpoint = config.PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getByTitle('DataOps')/Items/AttachmentFiles/add(FileName='" +
+      fileName +
+      "')"; 
       const headers = {  
         "accept": "application/json;odata=verbose"  
       };  

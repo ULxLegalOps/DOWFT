@@ -84,7 +84,8 @@
           <table class="table table-bordered">
           <th>Notifications:</th>
           <tr *ngFor="let item of cookieData" style="list-style-type:none;">
-                <td>{{item.Title}}</td>    
+                <td>{{item.Title}}</td>
+                <td><button class="btn-danger" type="button" (click)="dismis(item)">Dismis</button></td>    
           </tr>
           </table>
           </div>
@@ -292,14 +293,8 @@ Pending Allocation
 </div>   
 <div class="col-md-12 mb-1">
   <div class="input-group">
-  <input #fileUpload id="fileInput" name="file" type="file" ([value])="fName" (change)="fileChanged($event)">
+    <input (change)="onFileSelected($event)" type="file" id="frontImage">
 </div>
-</div>
-<div *ngIf="name && contents">
-  <h3>file {{name}} contents</h3>
-  <div *ngIf="contents">
-    {{ contents }}
-  </div>
 </div>
   <div class="col-md-12 mb-1">
   

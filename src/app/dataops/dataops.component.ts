@@ -1,11 +1,10 @@
 import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+//mport { HttpClient,HttpHeaders, } from '@angular/common/http';
+import {HttpClientModule, HttpClient, HttpRequest, HttpResponse, HttpEventType} from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormControl, NgForm } from '@angular/forms';
 import {config} from '../config';
 import {DataopsService} from '../dataops/dataops.service';
-import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { NotifierService } from 'angular-notifier';
-import { Label } from 'ng2-charts';
 declare let $: any;
 @Component({
   selector: 'app-dataops',
@@ -47,10 +46,15 @@ export class DataopsComponent implements OnInit {
   test: string;
   cookieData: any;
   public isShow:boolean = false;
+  percentDone: number;
+  uploadSuccess: boolean;
+  UploadUrl:any;
+  selectedFile: File;
+  UploadAttachmenturl:any;
+  NID:any;
   //Title:any;
   constructor(private fb: FormBuilder,private http: HttpClient,private dataopsService:DataopsService,	private notifier: NotifierService) {
-   // this.countNumber=0;
-   // this.notifier = notifier;
+   
   }
   ngOnInit(): void {
     this.http.get<any>(config.PLUGIN_URL +"/ContractRoomDataOps/_api/web/lists/getByTitle('Logs')/Items?&$top=100&$orderby= Id desc").subscribe(data => {
@@ -85,13 +89,6 @@ export class DataopsComponent implements OnInit {
          }
      }
   });
-  // this.dataopsService.getBellNotification().subscribe(data => {
-  //   console.log(data);
-  // });
-  // this.dataopsService.getBellNotification().subscribe(data => {
-  //     this.cookieData = data;
-  //     console.log("notification data" +this.cookieData );
-  //   });
      this.cols = [
       { field: 'Id', header: '#' },
       { field: 'From', header: 'From' },
@@ -100,9 +97,6 @@ export class DataopsComponent implements OnInit {
       { field: 'DataOpsMemberId', header: 'Member' },
        { field: 'DateTime', header: 'DateTime' }
   ];
-
-    
-   // console.log("notification data" +this.cookieData );
   }
   Copy(col){
     this.newList = [
@@ -131,13 +125,27 @@ this.attachmentUrl = config.PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getB
  
   show(){
     this.isShow = !this.isShow;
-  // alert();
   }
   OpenNav(){
      this.opennav = !this.opennav;
       }
+  dismis(item){
+    //alert(this.NID);
+    this.dataopsService.DeleteData(item.Id).then((resp) =>{
+    });
+  }
+      private onUpload() {
+        const fd = new FormData();
+        this.UploadAttachmenturl=config.PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getByTitle('DataOps')/Items(" + this.Id + ")/AttachmentFiles/add(FileName='" +this.selectedFile.name+ "')";
+        fd.append('imageFile', this.selectedFile, this.selectedFile.name);
+        this.http.post(this.UploadAttachmenturl, fd)
+          .subscribe(res =>{
+            this.jsonBody = res;
+            console.log("response data attachment" + this.jsonBody);
+          });
+      }
   submitForm(EditForm: NgForm) {
-    let Title = "Status Has been Marked as " +this.Status;
+    let Title = this.Id+ " Status Has been Marked as " +this.Status;
     this.Id  = this.Id;
     this.Status = this.Status;
     this.Comments= this.Comments;
@@ -148,45 +156,15 @@ this.attachmentUrl = config.PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getB
          this.isPopupShow = false;
       }, 3000);
       this.dataopsService.PushNotification(Title).then((resp)=>{
-        location.reload();
-
       })
-      // if(resp.AuthorId == 10){
-      //   console.log("failure");
-      // }
-    //  console.log(resp);
-      //if(Status Code)
-    // this.countNumber++;
-   
-    //  localStorage.setItem('number', JSON.stringify(this.countNumber));
-    //  this.test = localStorage.getItem('number');
-    //  console.log("test value localstorate" + this.test);
    });
   }
-  public fileChanged(event?: UIEvent): void {
-    const files: FileList = this.fileUploadEl.nativeElement.files;
-    console.log(`files: `, files);
-
-    const file = files[0];
-    const reader = new FileReader();
-    // reader.addEventListener('loadend', () => {
-    //   console.log(arguments);
-    //   console.log(reader);
-    //   this.contents = reader.result;
-    //   console.log(this.contents);
-    // });
-    // reader.readAsArrayBuffer(file);
-
-    const loaded = (el) => {
-      const contents = el.target.result;
-      console.log('onloaded', contents);
-      this.contents = contents;
-    }
-    reader.onload = loaded;
-    reader.readAsText(file, 'UTF-8');
-    this.name = file.name;
+  onFileSelected(event) {
+    this.selectedFile = <File>event.target.files[0];
+    this.onUpload();
   }
 }
+
 export interface User {
   Id;
   From;

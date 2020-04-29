@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FileUploadService } from './file-upload.service';  
-
+import { FileUploadService } from './file-upload.service'; 
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http'; 
 @Component({
   selector: 'app-fileupload',
   templateUrl: './fileupload.component.html',
@@ -8,18 +9,50 @@ import { FileUploadService } from './file-upload.service';
 })
 export class FileuploadComponent implements OnInit {
 
-  constructor(private fileUploadService: FileUploadService) { }
+  selectedFile: File;
+  productForm: FormGroup;
+  imgFront;
+  imgBack;
+  SharepointUrl:any;
+  test:any;
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.createForm();
   }
-  largeFileUpload(event: any) {  
-    let fileList: FileList = event.target.files;  
-    if (fileList.length != 0) {  
-      this.fileUploadService.fileUpload(fileList[0], "Test_ABC", fileList[0].name).then(addFileToFolder => {  
-        console.log("Large File Uploaded Successfully");  
-      }).catch(error => {  
-        console.log("Error while uploading" + error);  
-      });  
-    }  
-  }  
+
+  createForm() {
+    this.productForm = this.fb.group({
+      Title: ['', [Validators.required]]
+    });
+  }
+
+  private onUpload() {
+    const fd = new FormData();
+    this.SharepointUrl="http://localhost:8080/sites/ContractRoomDataOps/_api/web/lists/getByTitle('DataOps')/Items(1444)/AttachmentFiles/add(FileName='" +this.selectedFile.name+ "')";
+    fd.append('imageFile', this.selectedFile, this.selectedFile.name);
+    this.http.post(this.SharepointUrl, fd)
+      .subscribe(res =>{
+        this.test = res;
+        console.log("response data attachment" + this.test);
+      });
+  }
+
+  onFormSubmit() {
+    const formData = {
+      ...this.productForm.value,
+      imgFront: this.imgFront,
+      imgBack: this.imgBack
+    };
+    console.log('Form Data', formData);
+  }
+
+  onFileSelected(event) {
+    this.selectedFile = <File>event.target.files[0];
+    this.onUpload();
+  }
+
 }  
