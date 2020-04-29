@@ -1,5 +1,4 @@
 import { Component, OnInit,  ElementRef, ViewChild} from '@angular/core';
-//mport { HttpClient,HttpHeaders, } from '@angular/common/http';
 import {HttpClientModule, HttpClient, HttpRequest, HttpResponse, HttpEventType} from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, FormControl, NgForm } from '@angular/forms';
 import {config} from '../config';
@@ -12,8 +11,6 @@ declare let $: any;
   styleUrls: ['./dataops.component.scss']
 })
 export class DataopsComponent implements OnInit {
-  @ViewChild('fileUpload') fileUploadEl: ElementRef;
-  fName = '';
   contents: any[];
   name = '';
   users: User[];
@@ -52,7 +49,6 @@ export class DataopsComponent implements OnInit {
   selectedFile: File;
   UploadAttachmenturl:any;
   NID:any;
-  //Title:any;
   constructor(private fb: FormBuilder,private http: HttpClient,private dataopsService:DataopsService,	private notifier: NotifierService) {
    
   }
@@ -130,7 +126,6 @@ this.attachmentUrl = config.PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getB
      this.opennav = !this.opennav;
       }
   dismis(item){
-    //alert(this.NID);
     this.dataopsService.DeleteData(item.Id).then((resp) =>{
     });
   }

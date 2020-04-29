@@ -76,7 +76,7 @@
     <br>
     <br>
     <div class = "alert" *ngIf="isPopupShow">
-      <p>Status has been marked as {{Status}} </p>
+      <p>{{Id}} Status has been marked as {{Status}} </p>
     </div>
     <div *ngIf="isShow" class="pop-up">
         <div class="header">
@@ -171,9 +171,6 @@ Pending Allocation
       </tr>
   </ng-template>
   <ng-template pTemplate="body" let-user let-columns="columns">
-    <!-- <tr *ngFor = "let item of pendingallocations">
-       <td><input type = "hidden"</td> 
-    </tr> -->
       <tr>
           <td *ngFor="let col of columns">
               {{user[col.field]}}
@@ -200,8 +197,6 @@ Pending Allocation
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroup-sizing-default">ID#</span> </div>
                         <span class="form-control"  id="inputGroup-sizing-default" >{{Id}}</span> 
-                        <!-- <span class="form-control" id="inputGroup-sizing-default" >{{new.From}}</span> 
-                        <span class="form-control" id="inputGroup-sizing-default" >{{new.DateTime}}</span>  -->
                     </div>
                   </div>
                   <div class="col-md-6 mb-1" >
@@ -325,11 +320,4 @@ Pending Allocation
       </div>
     </div>
     </div>
-  
-
-    <!-- <div class="testDiv" *ngFor = "let new of newList">
-     <p>Id:</p> <span>{{new.Id}}</span>
-     <p>Title:</p> <span>{{new.Title}}</span>
-    </div> -->
-
     
