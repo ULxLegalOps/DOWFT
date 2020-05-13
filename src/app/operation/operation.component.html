@@ -1,5 +1,123 @@
-<ul>
-  <li *ngFor="let datum of data | datepipe">
-    {{datum.name}}
-  </li>
-</ul>
+<br>
+<br>
+<div class="container">
+  <div class="card bg-light">
+  <article class="card-body mx-auto" style="max-width: 500px;">
+    <h4 class="card-title mt-3 text-center">Create Issue Logs</h4>
+      <div style="width:500px">
+    <form [formGroup]="form_post" (submit)="submitForm(form_post.value)">
+      <!-- <SharePoint:FormDigest ID="__REQUESTDIGEST" runat="server"></SharePoint:FormDigest> -->
+      <label>Title:</label>
+    <div class="form-group input-group">
+      <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+       </div>
+          <input formControlName="Title" class="form-control"  placeholder="Title" type="text" [ngClass]="{ 'is-invalid': submitted && f.Title.errors }" />
+          <div *ngIf="submitted && f.Title.errors" class="invalid-feedback">
+            <div *ngIf="f.Title.errors.required">This field is required</div>
+        </div>
+      </div> <!-- form-group// -->
+      <label>Description:</label>
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+       </div>
+          <textarea formControlName="Description" class="form-control" placeholder="Description" type="email" [ngClass]="{ 'is-invalid': submitted && f.Description.errors }"></textarea>
+          <div *ngIf="submitted && f.Description.errors" class="invalid-feedback">
+            <div *ngIf="f.Description.errors.required">This field is required</div>
+        </div>
+      </div> <!-- form-group// -->
+      <label>Priority:</label>
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+      </div>
+      <select class="form-control" formControlName="Priority" [ngClass]="{ 'is-invalid': submitted && f.Description.errors }">
+        <option selected=""> Select Priority</option>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+      <div *ngIf="submitted && f.Priority.errors" class="invalid-feedback">
+        <div *ngIf="f.Priority.errors.required">This field is required</div>
+    </div>
+    </div> <!-- form-group end.// -->
+    <label>Category:</label>
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+      </div>
+      <select class="form-control" formControlName="Category" [ngClass]="{ 'is-invalid': submitted && f.Category.errors }">
+        <option selected=""> Select Category</option>
+        <option>Contracts</option>
+        <option>Agreement</option>
+      </select>
+      <div *ngIf="submitted && f.Category.errors" class="invalid-feedback">
+        <div *ngIf="f.Category.errors.required">This field is required</div>
+    </div>
+    </div> <!-- form-group end.// -->
+    <label>Sub Category:</label>
+    <div class="form-group input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+    </div>
+    <select class="form-control" formControlName="SubCategory" [ngClass]="{ 'is-invalid': submitted && f.SubCategory.errors }">
+      <option selected=""> Select Sub Category</option>
+      <option value="DataOps Mailbox">DataOps Mailbox</option>
+      <option value="ContractRoom">ContractRoom</option>
+      <option value="Requestor">Requestor</option>
+      <option value="Drafting Issue">Drafting Issue</option>
+      <option value="Others">Others</option>
+    </select>
+    <div *ngIf="submitted && f.SubCategory.errors" class="invalid-feedback">
+      <div *ngIf="f.SubCategory.errors.required">This field is required</div>
+  </div>
+  </div> <!-- form-group end.// -->
+  <label>Status:</label>
+  <div class="form-group input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text"> <i class="fa fa-building"></i> </span>
+  </div>
+  <select class="form-control" formControlName="Status" [ngClass]="{ 'is-invalid': submitted && f.Status.errors }">
+    <option selected=""> Select Status</option>
+    <option value="Resolved">Resolved</option>
+    <option value="Open">Open</option>
+  </select>
+  <div *ngIf="submitted && f.Status.errors" class="invalid-feedback">
+    <div *ngIf="f.Status.errors.required">This field is required</div>
+</div>
+</div> <!-- form-group end.// -->
+<label>Date Resolved:</label>
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+      </div>
+          <input class="form-control" placeholder="date" type="date" formControlName="DateResolved" [ngClass]="{ 'is-invalid': submitted && f.DateResolved.errors }">
+          <div *ngIf="submitted && f.Status.errors" class="invalid-feedback">
+            <div *ngIf="f.Status.errors.required">This field is required</div>
+        </div>
+      </div> <!-- form-group// -->
+      <label>Comments:</label>
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+      </div>
+          <textarea class="form-control" placeholder="Comments" formControlName="Comments" [ngClass]="{ 'is-invalid': submitted && f.Comments.errors }"></textarea>
+          <div *ngIf="submitted && f.Comments.errors" class="invalid-feedback">
+            <div *ngIf="f.Comments.errors.required">This field is required</div>
+        </div>
+      </div> <!-- form-group// -->   
+      <!-- <label>Title:</label>                                    -->
+      <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block"> Create Issue </button>
+      </div> <!-- form-group// -->      
+      <!-- <p class="text-center">Have an account? <a href="">Log In</a> </p>                                                                  -->
+  </form>
+      </div>
+  </article>
+  </div> <!-- card.// -->
+  
+  </div> 
+  <!--container end.//-->
+  <br><br>
+  

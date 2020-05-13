@@ -115,7 +115,7 @@ export class BarChartComponent implements OnInit {
          // console.log(dates);
       }
       this.dateArr = timeFrom(10); 
-    this.http.get<any>(config.PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getByTitle('DataOps')/items?&$top=100&$orderby= Id desc&$(datetime('" + this.startDate + "') ge dateFrom) and (datetime('" + this.endDate + "') le dateTo").subscribe(data => {
+    this.http.get<any>(config.HTTPS_PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getByTitle('DataOps')/items?&$top=100&$orderby= Id desc&$(datetime('" + this.startDate + "') ge dateFrom) and (datetime('" + this.endDate + "') le dateTo").subscribe(data => {
       this.item = data.value;
       for(let date of this.item){
        this.formatedArray.push(date.DateTime.slice(0,10));

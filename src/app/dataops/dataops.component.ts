@@ -53,11 +53,6 @@ export class DataopsComponent implements OnInit {
    
   }
   ngOnInit(): void {
-    this.http.get<any>(config.PLUGIN_URL +"/ContractRoomDataOps/_api/web/lists/getByTitle('Logs')/Items?&$top=100&$orderby= Id desc").subscribe(data => {
-      this.cookieData = data.value;
-     this.countNumber= this.cookieData.length;
-      console.log(this.cookieData.length);
-    });
     this.dataopsService.getDataResp().subscribe(data => {
      this.users = data.value;
      this.Assigned =0;
@@ -122,16 +117,10 @@ this.attachmentUrl = config.PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getB
   show(){
     this.isShow = !this.isShow;
   }
-  OpenNav(){
-     this.opennav = !this.opennav;
-      }
-  dismis(item){
-    this.dataopsService.DeleteData(item.Id).then((resp) =>{
-    });
-  }
+  
       private onUpload() {
         const fd = new FormData();
-        this.UploadAttachmenturl=config.PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getByTitle('DataOps')/Items(" + this.Id + ")/AttachmentFiles/add(FileName='" +this.selectedFile.name+ "')";
+        this.UploadAttachmenturl=config.HTTPS_PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getByTitle('DataOps')/Items(" + this.Id + ")/AttachmentFiles/add(FileName='" +this.selectedFile.name+ "')";
         fd.append('imageFile', this.selectedFile, this.selectedFile.name);
         this.http.post(this.UploadAttachmenturl, fd)
           .subscribe(res =>{

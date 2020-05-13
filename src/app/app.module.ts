@@ -24,9 +24,11 @@ import { DatePipe } from '@angular/common';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
 import { DatepipePipe } from './datepipe.pipe';
-import { ChartComponent } from './chart/chart.component';
-import { PushnotificationComponent } from './pushnotification/pushnotification.component';
-import { FileuploadComponent } from './fileupload/fileupload.component';
+import { IssueListComponent } from './issue-list/issue-list.component';
+import { StriphtmlPipe } from './striphtml.pipe';
+// import { ChartComponent } from './chart/chart.component';
+// import { PushnotificationComponent } from './pushnotification/pushnotification.component';
+// import { FileuploadComponent } from './fileupload/fileupload.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -76,9 +78,11 @@ const customNotifierOptions: NotifierOptions = {
     HeaderComponent,
     BarChartComponent,
     DatepipePipe,
-    ChartComponent,
-    PushnotificationComponent,
-    FileuploadComponent,
+    IssueListComponent,
+    StriphtmlPipe,
+    // ChartComponent,
+    // PushnotificationComponent,
+    // FileuploadComponent,
   ],
   imports: [
     BrowserModule,

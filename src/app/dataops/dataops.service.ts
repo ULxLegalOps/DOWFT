@@ -12,7 +12,7 @@ export class DataopsService {
   constructor(private http:  HttpClient) {
    }
   getDataResp(){
-   return this.http.get<any>(config.PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getByTitle('DataOps')/items?&$top=100&$orderby= Id desc")
+   return this.http.get<any>(config.HTTPS_PLUGIN_URL+"/ContractRoomDataOps/_api/web/lists/getByTitle('DataOps')/items?&$top=100&$orderby= Id desc")
   }
   DeleteData(NID:any){
      const headers = new HttpHeaders({
@@ -20,7 +20,12 @@ export class DataopsService {
       "X-HTTP-Method": "DELETE",
       "X-RequestDigest": $("#__REQUESTDIGEST").val(),
       });   
-    return this.http.post(config.PLUGIN_URL +"/ContractRoomDataOps/_api/web/lists/getByTitle('Logs')/Items("+NID+")",{headers}).toPromise().then(resp => {
+      //  var body = {   
+      //   NID:NID,
+      //   // Comments:Comments,
+      //   // DataOpsMemberId:DataOpsMemberId
+      // }
+    return this.http.delete(config.HTTPS_PLUGIN_URL +"/ContractRoomDataOps/_api/web/lists/getByTitle('Logs')/Items("+NID+")",{headers}).toPromise().then(resp => {
       return Promise.resolve(resp);
     })
     .catch(err => Promise.reject(
@@ -33,14 +38,14 @@ export class DataopsService {
     const headers = new HttpHeaders({
     "If-Match":"*",
     "X-Http-Method" : "MERGE",
-    "X-RequestDigest": $("#__REQUESTDIGEST").val(),
+    "X-RequestDigest": "{form_digest_value}"
     });   
     var body = {   
      Status: Status,
      Comments:Comments,
      DataOpsMemberId:DataOpsMemberId
    }
-return this.http.post(config.PLUGIN_URL +"/ContractRoomDataOps/_api/web/lists/getByTitle('DataOps')/Items("+Id+")" ,body, { headers })
+return this.http.post(config.HTTPS_PLUGIN_URL +"/ContractRoomDataOps/_api/web/lists/getByTitle('DataOps')/Items("+Id+")" ,body, { headers })
 .toPromise().then(resp => {
   return Promise.resolve(resp);
 })
@@ -53,7 +58,7 @@ PushNotification(Title:string){
   var body = {   
     Title:Title,
   }
-  return this.http.post(config.PLUGIN_URL +"/ContractRoomDataOps/_api/web/lists/getByTitle('Logs')/Items" ,body).toPromise().then(resp => {
+  return this.http.post(config.HTTPS_PLUGIN_URL +"/ContractRoomDataOps/_api/web/lists/getByTitle('Logs')/Items" ,body).toPromise().then(resp => {
     return Promise.resolve(resp);
   })
   .catch(err => Promise.reject(

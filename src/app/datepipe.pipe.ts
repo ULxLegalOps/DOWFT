@@ -6,13 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
   pure: false
 })
 export class DatepipePipe implements PipeTransform {
-
- 
-  transform(value: any): any{
-    if(value!== undefined && value!== null){
-        return _.uniqBy(value, 'name');
-    }
-    return value;
+  transform(value: string): any {
+    return value.slice(0,10); // replace tags
 }
 
 }

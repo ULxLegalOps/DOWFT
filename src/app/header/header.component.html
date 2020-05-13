@@ -1,61 +1,88 @@
 <div id="wrapper" class="animate">
-    <nav class="navbar header-top fixed-top navbar-expand-lg  navbar-dark bg-dark">
-      <span  style="font-size:30px;cursor:pointer" (click)="OpenNav()">&#9776;</span>
-      <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
-      <a class="navbar-brand" href="#">DataOps Workflow Tool</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav ml-md-auto d-md-flex">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#DataOpsMember">DataOps Members</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Signature ID Library</a>
-          </li>
-          <li class="nav-item">
-            <!-- <a class="nav-link p-0" href="#"><img src="/_layouts/15/userphoto.aspx?size=S&username={{profile}}" style="border-radius: 5px; width:90%"/></a> -->
-          </li>
-        </ul>
-      </div>
-      <button mat-icon-button (click)="clearCount()">
-        <mat-icon class="icon">notifications</mat-icon>
-        <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
-      </button>
-    </nav>
-    <br>
-    <div id ="slide" *ngIf = "opennav">
-      <ul class="navbar-nav animate side-nav">
+  <nav class="navbar header-top fixed-top navbar-expand-lg  navbar-dark bg-dark">
+    <span  style="font-size:30px;cursor:pointer" (click)="OpenNav()">&#9776;</span>
+    <!-- <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; open</span> -->
+    <a class="navbar-brand" href="#">DataOps Workflow Tool</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav ml-md-auto d-md-flex">
         <li class="nav-item">
           <a class="nav-link" href="#">Home
             <span class="sr-only">(current)</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">BR Library</a>
+          <a class="nav-link" href="#DataOpsMember">DataOps Members</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">My Dashboards</a>
+          <a class="nav-link" href="#">Signature ID Library</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Issue Logs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Reports</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Dashboards</a>
+          <!-- <a class="nav-link p-0" href="#"><img src="/_layouts/15/userphoto.aspx?size=S&username={{profile}}" style="border-radius: 5px; width:90%"/></a> -->
         </li>
       </ul>
-      </div>
-      <br>
-      <br>
-      <br>
-      <br>
+    </div>
+    <!-- <button mat-icon-button (click)="clearCount()">
+      <mat-icon class="icon">notifications</mat-icon>
+      <span class="badge" *ngIf="countNumber > 0">{{countNumber}}</span>
+    </button> -->
+    <span 
+    class="notification" 
+    (click) = "show()"
+    type="button"
+    >
+    <a>
+        <i class="fa fa-bell" aria-hidden="true" style="color:#DDDDDD;">
+    <span style="color:red;" >{{countNumber}}</span> 
+    </i>
+    </a>
+  </span>
+  </nav>
+</div>
+<br>
+<div id ="slide" *ngIf = "opennav" style="position: fixed;">
+    <ul class="navbar-nav animate side-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Home
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">BR Library</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">My Dashboards</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Issue Logs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Reports</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Dashboards</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink] = "['/operation']">IssueLogs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink] = "['/issuelist']">IssueList</a>
+      </li>
+    </ul>
+    </div> 
+<div *ngIf="isShow" class="pop-up">
+  <div class="header">
+    <div style="overflow: scroll; height: 600px;">
+    <table class="table table-bordered">
+    <th>Notifications:</th>
+    <tr *ngFor="let item of cookieData" style="list-style-type:none;">
+          <td>{{item.Title}}</td>
+          <td><button class="btn-danger" type="button" (click)="dismis(item)">Dismis</button></td>    
+    </tr>
+    </table>
+    </div>
+  </div>
+</div>

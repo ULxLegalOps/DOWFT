@@ -1,3 +1,50 @@
+.pop-up{
+    position: fixed;
+    top: 65px;
+    right: 10px;
+    display: inline-block;
+    background: #fff;
+    z-index: 9999;
+    text-align: left;
+    padding: 10px 10px;
+    color: #000;
+    border: 1px solid #000;
+    .header{
+        position: relative;
+        &:before{
+            content: "";
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 20px 20px 20px;
+            border-color: transparent transparent #000 transparent;
+            height: 10px;
+            width: 10px;
+            position: absolute;
+            right: 0;
+            top: -30px;
+           // overflow: scroll;
+        }
+        &:after{
+            content: "";
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 20px 20px 20px;
+            border-color: transparent transparent #fff transparent;
+            height: 10px;
+            width: 10px;
+            position: absolute;
+            right: 0;
+            top: -29px;
+            //overflow: scroll;
+        }
+    }
+}
+.alert p{
+  text-decoration: left;
+  margin-bottom: 0px;
+}
 .sticky-container {
     /*background-color: #333;*/
     padding: 5px;
@@ -64,3 +111,4 @@
     @keyframes slide {
         100% { left: 0; }
     }
+   

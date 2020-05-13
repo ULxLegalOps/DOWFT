@@ -1,7 +1,10 @@
 import { Component,Input} from '@angular/core';
+import {HttpClientModule, HttpClient, HttpRequest, HttpResponse, HttpEventType} from '@angular/common/http';
 declare var jquery: any;
 declare var $: any;
 import {DataopsService} from '../dataops/dataops.service';
+import {config} from '../config';
+
 @Component({
   selector: 'app-header',
   templateUrl:'./header.component.html',
@@ -12,28 +15,19 @@ export class HeaderComponent  {
   opennav:boolean=false;
  badgeCount:any;
  public isPopupShow: boolean = false;
-  constructor(private dataopsService:DataopsService) { 
-  //  this.badgeCount = 0;
+  cookieData: any;
+  countNumber: any;
+  public isShow:boolean = false;
+  constructor(private dataopsService:DataopsService,private http: HttpClient) { 
   }
-  // incrementCount() {
-  //   //this.badgeCount++;
-  //   this.badgeCount = this.dataopsService.UpdateData;
-  //   console.log("badge count header"+ this.badgeCount);
-  // }
-
-  // clearCount() {
-  //   this.badgeCount = 0;
-  // }  
-
    ngOnInit(): void {
-    this.badgeCount = this.getBadgeData();
-     console.log("badge count header" + this.badgeCount);
+    this.http.get<any>(config.HTTPS_PLUGIN_URL +"/ContractRoomDataOps/_api/web/lists/getByTitle('Logs')/Items?&$top=100&$orderby= Id desc").subscribe(data => {
+      this.cookieData = data.value;
+     this.countNumber= this.cookieData.length;
+      console.log(this.cookieData.length);
+    });
    }
    getBadgeData() {
-    // this.isPopupShow = true;
-    // setTimeout(()=>{   
-    //    this.isPopupShow = false;
-    // }, 3000);
     return JSON.parse(localStorage.getItem('number'));
   }
   clearCount() {
@@ -41,14 +35,14 @@ export class HeaderComponent  {
     localStorage.clear();
   }  
   OpenNav(){
-//     $( document ).ready(function() {
-//       $('.leftmenutrigger').on('click', function(e) {
-//       $('.side-nav').toggleClass("open");
-//       e.preventDefault();
-//      });
-//  });
- //alert();
- this.opennav = !this.opennav;
-  }
+    this.opennav = !this.opennav;
+     }
+ dismis(item){
+   this.dataopsService.DeleteData(item.Id).then((resp) =>{
+   });
+ }
+ show(){
+  this.isShow = !this.isShow;
+}
 
 }
